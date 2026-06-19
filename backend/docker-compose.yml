@@ -1,0 +1,36 @@
+services:
+
+  procure_track_postgres:
+    image: postgres:16
+    container_name: procure_track_app
+
+    environment:
+      POSTGRES_USER: darsh_user
+      POSTGRES_PASSWORD: darsh_password
+      POSTGRES_DB: procure_track_db
+  
+    ports:
+      - "5433:5432"
+  
+    volumes:
+      - procure_track_db_data:/var/lib/postgresql/data                
+  
+    restart: unless-stopped
+
+  pgweb_new:
+    image: sosedoff/pgweb:latest
+    container_name: procure_track_pgweb
+
+    depends_on:
+      - procure_track_postgres
+
+    environment:
+      DATABASE_URL: postgres://darsh_user:darsh_password@procure_track_postgres:5432/procure_track_db?sslmode=disable
+
+    ports:
+      - "8082:8081"
+    
+    restart: unless-stopped
+
+volumes:
+  procure_track_db_data:
