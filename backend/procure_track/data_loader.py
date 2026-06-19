@@ -1,5 +1,5 @@
 import pandas as pd
-from procure_track.models import Company
+#from models import Company
 from sqlalchemy.ext.asyncio import AsyncSession
 
 excel_file = pd.ExcelFile(r"C:\Users\darsh.chaudhary\procurement-and-invoice-monitoring-app\backend\work_data.xlsx")
@@ -11,6 +11,8 @@ company_df = (
         ["Name Of Company"]
     ]
 )
+
+print(company_df)
 
 
 
