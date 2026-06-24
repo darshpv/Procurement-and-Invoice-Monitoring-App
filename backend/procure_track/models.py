@@ -1,6 +1,6 @@
 from core.database import Base
 from enum import Enum
-from sqlalchemy import Column, Numeric, String, Integer, Boolean, Float, Enum as SQLAlchemyEnum, ForeignKey, Date
+from sqlalchemy import Column, Numeric, String, Integer, Boolean, Float, Enum as SQLAlchemyEnum, Date
 
 class PO_Status(str, Enum):
     PO_CLOSED = "PO Closed"
@@ -10,10 +10,8 @@ class PO_Status(str, Enum):
 class Order(Base):
     __tablename__ = "orders"
 
-    id = Column(Integer, primary_key=True, index=True)
-
     #  Tender Info
-    tender_ref_no = Column(String)
+    tender_ref_no = Column(String, primary_key=True)
     tender_quantity = Column(Integer)
     loa_percent = Column(Integer)
     approve_rate = Column(Float)
@@ -50,7 +48,7 @@ class Order(Base):
     schedule_days = Column(Integer)
     schedule_date = Column(Date)
     remaining_days = Column(Integer)
-    status = Column(String)
+    status = Column(SQLAlchemyEnum(PO_Status))
 
     #  Payment Info
     invoice_submission_date = Column(Date)
