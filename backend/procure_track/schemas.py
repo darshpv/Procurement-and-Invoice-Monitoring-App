@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 from datetime import date
-from procure_track.models import PO_Status
 
 class OrderCreateRequest(BaseModel):
 
     tender_ref_no:str
     tender_quantity: int
-    loa_percent: int
+    loa_percent: float
     approve_rate:  float
     placebo_required: bool
 
@@ -35,7 +34,7 @@ class OrderCreateRequest(BaseModel):
     schedule_days: int
     schedule_date:  date
     remaining_days: int
-    status: PO_Status
+    status: str
 
     invoice_submission_date: date
     payment_sanction_date: date
@@ -51,7 +50,7 @@ class OrderResponse(BaseModel):
 
     tender_ref_no: str
     tender_quantity: int
-    loa_percent: int
+    loa_percent: float
     approve_rate: float
     placebo_required: bool
 
