@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from procure_track.schemas import (
     OrderCreateRequest,
     OrderCreateResponse,
-    OrderResponse
+    CompanyComparisonResponse,
+    OrderResponse,
 )
 from core.database import get_db_session
 from procure_track import service, data_loader
@@ -22,3 +23,9 @@ async def create_task(
     db: AsyncSession = Depends(get_db_session)
 ):
     return await service.create_all_orders(new_db=db, order_data=data_loader.get_all_orders())
+
+@router.get("/get_comparison_data", response_model=list[CompanyComparisonResponse], status_code=201)
+async def create_task(
+    db: AsyncSession = Depends(get_db_session)
+):
+    return await service.get_company_comparison_data(new_db=db, sort_by_input=service.SortingCategories.po_value)

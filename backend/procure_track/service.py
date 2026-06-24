@@ -1,13 +1,41 @@
 from procure_track.repository import OrderRepository
-from procure_track.schemas import OrderCreateRequest, OrderResponse
+from procure_track.schemas import OrderCreateRequest, OrderResponse, CompanyComparisonResponse
 from fastapi import HTTPException
 from procure_track.models import Order
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, date
+from enum import Enum
 
+class SortingCategories(str, Enum):
+        po_value = "po_value"
+        invoice_value = "invoice_value"
+        pending_invoice_value = "pending_invoice_value"
+        pending_invoice_qty = "pending_invoice_qty"
+        po_quantity = "po_quantity"
+        remaining_days = "remaining_days"
+        status = "status"
 
 
 orderRepository = OrderRepository()
+
+def sort_companies(comparison_data: list[dict], sort_by: SortingCategories):
+        maxValue = 0
+        maxRow = None
+        sortedValues = []
+        
+        while len(sortedValues) < 10:
+                for row in comparison_data:
+                        if row.get(sort_by.value) > maxValue:
+                                maxValue = row.get(sort_by.value)
+                                maxRow = row
+                sortedValues.append(maxRow)
+                comparison_data.remove(maxRow)
+                maxValue = 0
+                maxRow = None
+        
+        return sortedValues
+
+
 
 async def create_order(new_db: AsyncSession, order_data: OrderCreateRequest):
     new_order = Order(
@@ -73,3 +101,11 @@ async def create_all_orders(new_db: AsyncSession, order_data: list[OrderCreateRe
 
     created_order = await orderRepository.create_all_orders(db=new_db, orders=all_orders)
     return all_orders
+
+async def get_company_comparison_data(new_db: AsyncSession, sort_by_input: SortingCategories):
+        
+        data = await orderRepository.get_company_comparison_data(db=new_db)
+        
+        sortedValues = sort_companies(comparison_data=data, sort_by=sort_by_input)
+        
+        return sortedValues

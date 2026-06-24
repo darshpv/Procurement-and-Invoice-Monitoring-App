@@ -1,6 +1,6 @@
 from procure_track.models import Order
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy import select
 
 class OrderRepository():
 
@@ -44,6 +44,7 @@ class OrderRepository():
             raise e
     
     async def create_all_orders(self, db: AsyncSession, orders: list[Order]):
+        
         try:
 
             order_values = [
@@ -86,3 +87,26 @@ class OrderRepository():
             await db.rollback()
             raise e
     
+    async def get_company_comparison_data(self, db: AsyncSession):
+        
+        try:
+            result = await db.execute(
+                select(
+                    Order.company_name,
+                    Order.po_value,
+                    Order.invoice_value,
+                    Order.pending_invoice_value,
+                    Order.pending_invoice_qty,
+                    Order.po_quantity,
+                    Order.remaining_days,
+                    Order.status,
+                )
+            )
+
+            # Use mappings() to get dictionary-like rows so Pydantic can validate
+            mappings = result.mappings().all()
+            return [dict(row) for row in mappings]
+        
+        except Exception as e:
+            await db.rollback()
+            raise e

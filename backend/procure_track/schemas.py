@@ -38,6 +38,7 @@ class CompanyComparisonResponse(BaseModel):
     po_value: int
     invoice_value: int
     pending_invoice_value: int
+    pending_invoice_qty: int
     po_quantity: int
     remaining_days: int
     status: str
