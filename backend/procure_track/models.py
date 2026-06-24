@@ -8,27 +8,27 @@ class Order(Base):
 
     #  Tender Info
     tender_ref_no = Column(String, primary_key=True)
-    tender_quantity = Column(Integer)
-    loa_percent = Column(Float)
-    approve_rate = Column(Float)
+    # tender_quantity = Column(Integer)
+    # loa_percent = Column(Float)
+    # approve_rate = Column(Float)
     placebo_required = Column(Boolean)
 
     #  Product Info
     product_code = Column(String)
     product_name = Column(String)
-    hsn_code = Column(String)
-    packing_size = Column(String)
-    shelf_life_months = Column(Integer)
+    # hsn_code = Column(String)
+    # packing_size = Column(String)
+    # shelf_life_months = Column(Integer)
 
     #  Company Info
     company_name = Column(String)
-    tax_rate = Column(Float)
+    # tax_rate = Column(Float)
 
     #  Purchase Order (PO)
     po_no = Column(Integer)
     po_date = Column(Date)
     po_quantity = Column(Integer)
-    drug_value = Column(Integer)
+    # drug_value = Column(Integer)
     po_value = Column(Integer)
 
     #  Invoice Info
@@ -38,23 +38,23 @@ class Order(Base):
     #  Pending / Calculated
     pending_invoice_qty = Column(Integer)
     pending_invoice_value = Column(Integer)
-    active_quantity_spdr = Column(Integer)
+    # active_quantity_spdr = Column(Integer)
 
     #  Delivery & Schedule
-    schedule_days = Column(Integer)
+    # schedule_days = Column(Integer)
     schedule_date = Column(Date)
     remaining_days = Column(Integer)
     status = Column(String)
 
     #  Payment Info
-    invoice_submission_date = Column(Date)
+    # invoice_submission_date = Column(Date)
     payment_sanction_date = Column(Date)
-    amount_passed = Column(Integer)
-    outstanding_to_rmscl = Column(Integer)
+    # amount_passed = Column(Integer)
+    # outstanding_to_rmscl = Column(Integer)
 
     #  File / Tracking
-    file_no = Column(Integer)
-    remarks = Column(String)
+    # file_no = Column(Integer)
+    # remarks = Column(String)
     
     #  Metrics
-    supply_percent = Column(Float)
+    # supply_percent = Column(Float)
