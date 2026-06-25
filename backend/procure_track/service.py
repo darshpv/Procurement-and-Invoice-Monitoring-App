@@ -1,5 +1,5 @@
 from procure_track.repository import OrderRepository
-from procure_track.schemas import OrderCreateRequest, OrderResponse, CompanyComparisonResponse
+from procure_track.schemas import OrderCreateRequest
 from fastapi import HTTPException
 from procure_track.models import Order
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -7,13 +7,11 @@ from datetime import datetime, date
 from enum import Enum
 
 class SortingCategories(str, Enum):
-        po_value = "po_value"
-        invoice_value = "invoice_value"
+        total_po_value = "total_po_value"
         pending_invoice_value = "pending_invoice_value"
-        pending_invoice_qty = "pending_invoice_qty"
-        po_quantity = "po_quantity"
-        remaining_days = "remaining_days"
-        status = "status"
+        pending_qty = "pending_invoice_qty"
+        delayed_deliveries_count = "delayed_deliveries_count"
+        payments_pending_count = "payments_pending_count"
 
 
 orderRepository = OrderRepository()
@@ -109,3 +107,39 @@ async def get_company_comparison_data(new_db: AsyncSession, sort_by_input: Sorti
         sortedValues = sort_companies(comparison_data=data, sort_by=sort_by_input)
         
         return sortedValues
+
+async def get_company_summary(new_db: AsyncSession):
+    
+    data = await orderRepository.get_company_summary(db=new_db)
+    
+    return data
+
+async def get_status_summary(new_db: AsyncSession):
+    
+    data = await orderRepository.get_status_summary(db=new_db)
+    
+    return data
+
+async def get_product_summary(new_db: AsyncSession):
+    
+    data = await orderRepository.get_product_summary(db=new_db)
+    
+    return data
+
+async def get_delayed_deliveries(new_db: AsyncSession):
+    
+    data = await orderRepository.get_delayed_deliveries(db=new_db)
+    
+    return data
+
+async def get_pending_payments(new_db: AsyncSession):
+    
+    data = await orderRepository.get_pending_payments(db=new_db)
+    
+    return data
+
+async def get_detailed_order(new_db: AsyncSession):
+    
+    data = await orderRepository.get_detailed_order(db=new_db)
+    
+    return data
