@@ -1,0 +1,22 @@
+.top-companies-table {
+    border: 0.5px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.top-companies-table table {
+    padding: 20px;
+    font-size: 16px;
+    border-collapse: collapse;
+    margin: 10px;
+}
+
+.top-companies-table tr {
+    border: 1px solid #ddd;
+}
+
+.top-companies-table td, th {
+  border-right: 1px solid #ddd;
+  padding: 7.5px;
+}
+
