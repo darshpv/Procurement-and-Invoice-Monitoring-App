@@ -29,11 +29,12 @@ async def create_task(
 ):
     return await service.create_all_orders(new_db=db, order_data=data_loader.get_all_orders())
 
-@router.get("/get_comparison_data", response_model=list[CompanyComparisonResponse], status_code=201)
+@router.get("/get_comparison_data/{sort_by}", response_model=list[CompanyComparisonResponse], status_code=201)
 async def create_task(
     sort_by: service.SortingCategories,
     db: AsyncSession = Depends(get_db_session)
 ):
+    print(sort_by)
     return await service.get_company_comparison_data(new_db=db, sort_by_input=sort_by)
 
 
