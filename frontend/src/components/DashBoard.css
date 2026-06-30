@@ -1,0 +1,38 @@
+.app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-inline: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+}
+
+.app-bar h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.buttons-container {
+    color: black;
+}
+
+.buttons-container button{
+    margin-right: 10px;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    transition: all 0.5s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+.buttons-container button:hover{
+    background-color: #00387d;
+    color: white;
+}
