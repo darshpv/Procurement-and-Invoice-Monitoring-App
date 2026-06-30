@@ -31,7 +31,7 @@ async def create_task(
 
 @router.get("/get_comparison_data/{sort_by}", response_model=list[CompanyComparisonResponse], status_code=201)
 async def create_task(
-    sort_by: service.SortingCategories,
+    sort_by: service.CompanySortingCategories,
     db: AsyncSession = Depends(get_db_session)
 ):
     print(sort_by)
@@ -68,8 +68,18 @@ async def create_task(
 ):
     return await service.get_pending_payments(new_db=db)
 
-@router.get("/get_detailed_order", response_model=list[DetailedOrdersResponse], status_code=201)
+# @router.get("/get_detailed_orders/{sort_by}", response_model=list[DetailedOrdersResponse], status_code=201)
+# async def create_task(
+#     sort_by: service.OrderSortingCategories,
+#     db: AsyncSession = Depends(get_db_session)
+# ):
+#     return await service.get_detailed_orders(new_db=db, sort_by_input=sort_by)
+
+@router.get("/get_detailed_orders/{sort_by}/{search_by}/{search_value}", response_model=list[DetailedOrdersResponse], status_code=201)
 async def create_task(
+    sort_by: service.OrderSortingCategories,
+    search_by: service.SearchCritera,
+    search_value: str | int,
     db: AsyncSession = Depends(get_db_session)
 ):
-    return await service.get_detailed_order(new_db=db)
+    return await service.get_detailed_orders(new_db=db, sort_by_input=sort_by, search_by_input=search_by, search_by_value=search_value)

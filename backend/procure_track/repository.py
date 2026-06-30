@@ -1,6 +1,9 @@
 from procure_track.models import Order
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, case
+from sqlalchemy import select, func, case, String
+from enum import Enum
+
+ 
 
 class OrderRepository():
 
@@ -332,33 +335,93 @@ class OrderRepository():
             await db.rollback()
             raise e   
     
-    async def get_detailed_order(self, db: AsyncSession):
+    # async def get_detailed_orders(self, db: AsyncSession):
+        
+    #     try:
+            
+    #         result = await db.execute(
+    #             select(
+    #                 Order.tender_ref_no,
+    #                 Order.product_name,
+    #                 Order.company_name,
+    #                 Order.po_no,
+    #                 Order.po_date,
+    #                 Order.po_quantity,
+    #                 Order.po_value,
+    #                 Order.invoice_qty,
+    #                 Order.invoice_value,
+    #                 Order.pending_invoice_qty,
+    #                 Order.pending_invoice_value,
+    #                 Order.schedule_date,
+    #                 Order.remaining_days,
+    #                 Order.status,
+    #                 Order.payment_sanction_date
+    #             )
+    #         )
+            
+    #         mappings = result.mappings().all()
+    #         return [dict(row) for row in mappings]
+        
+    #     except Exception as e:
+    #         await db.rollback()
+    #         raise e       
+        
+    async def get_detailed_orders(self, db: AsyncSession, search_by: str, search_value: str | int):
+        column = getattr(Order, search_by)
+        
+        
+            
         
         try:
-            
-            result = await db.execute(
-                select(
-                    Order.tender_ref_no,
-                    Order.product_name,
-                    Order.company_name,
-                    Order.po_no,
-                    Order.po_date,
-                    Order.po_quantity,
-                    Order.po_value,
-                    Order.invoice_qty,
-                    Order.invoice_value,
-                    Order.pending_invoice_qty,
-                    Order.pending_invoice_value,
-                    Order.schedule_date,
-                    Order.remaining_days,
-                    Order.status,
-                    Order.payment_sanction_date
+            if isinstance(column.type, String):
+                result = await db.execute(
+                    select(
+                        Order.tender_ref_no,
+                        Order.product_name,
+                        Order.company_name,
+                        Order.po_no,
+                        Order.po_date,
+                        Order.po_quantity,
+                        Order.po_value,
+                        Order.invoice_qty,
+                        Order.invoice_value,
+                        Order.pending_invoice_qty,
+                        Order.pending_invoice_value,
+                        Order.schedule_date,
+                        Order.remaining_days,
+                        Order.status,
+                        Order.payment_sanction_date
+                    ).where(
+                        column.ilike(f"%{search_value}%")
+                    )
                 )
-            )
-            
+            else:
+                result = await db.execute(
+                    select(
+                        Order.tender_ref_no,
+                        Order.product_name,
+                        Order.company_name,
+                        Order.po_no,
+                        Order.po_date,
+                        Order.po_quantity,
+                        Order.po_value,
+                        Order.invoice_qty,
+                        Order.invoice_value,
+                        Order.pending_invoice_qty,
+                        Order.pending_invoice_value,
+                        Order.schedule_date,
+                        Order.remaining_days,
+                        Order.status,
+                        Order.payment_sanction_date
+                    ).where(
+                        column == int(search_value)
+                    )
+                )
+        
             mappings = result.mappings().all()
             return [dict(row) for row in mappings]
         
         except Exception as e:
             await db.rollback()
-            raise e          
+            raise e
+       

@@ -4,7 +4,8 @@
     justify-content: space-between;
     padding: 20px;
     margin-inline: 20px;
-    border-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     color: black;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);

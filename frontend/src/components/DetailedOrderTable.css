@@ -1,0 +1,59 @@
+.detailed-order-table {
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+    margin: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.detailed-order-table table {
+    padding: 20px;
+    font-size: 12px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 100%;
+    height:2000px;
+    box-sizing: border-box;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+   color: black;
+}
+
+.red-row {
+    color: red;
+}
+
+.orange-row {
+    color: orange;
+}
+
+.green-row {
+    color: green;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detailed-order-table td, th {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+
+.detailed-order-table select {
+    padding: 5px;
+    border-radius: 10px;
+}

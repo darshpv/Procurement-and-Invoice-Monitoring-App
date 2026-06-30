@@ -6,32 +6,57 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, date
 from enum import Enum
 
-class SortingCategories(str, Enum):
+class SearchCritera(str, Enum):
+    company_name = "company_name"
+    product_name = "product_name"
+    po_no = "po_no"
+    tender_ref_no = "tender_ref_no"
+
+class CompanySortingCategories(str, Enum):
         total_po_value = "total_po_value"
         pending_invoice_value = "pending_invoice_value"
         pending_qty = "pending_invoice_qty"
         delayed_deliveries_count = "delayed_deliveries_count"
         payments_pending_count = "payments_pending_count"
 
+class OrderSortingCategories(str, Enum):
+
+        company_name = "company_name"
+        po_date = "po_date"
+        po_value = "po_value"
+        invoice_value = "invoice_value"
+        pending_invoice_value = "pending_invoice_value"
+        pending_qty = "pending_invoice_qty"
+        remaining_days = "remaining_days"
+        status = "status"
+
 
 orderRepository = OrderRepository()
 
-def sort_companies(comparison_data: list[dict], sort_by: SortingCategories):
-        maxValue = 0
-        maxRow = None
-        sortedValues = []
-        
-        while len(sortedValues) < 10:
-                for row in comparison_data:
-                        if row.get(sort_by.value) > maxValue:
-                                maxValue = row.get(sort_by.value)
-                                maxRow = row
-                sortedValues.append(maxRow)
-                comparison_data.remove(maxRow)
-                maxValue = 0
-                maxRow = None
-        
-        return sortedValues
+def sort_companies(comparison_data: list[dict], sort_by: CompanySortingCategories):
+    return sorted(
+        comparison_data,
+        key=lambda row: row.get(sort_by.value, 0) if row.get(sort_by.value) is not None else 0,
+        reverse=True,
+    )[:10]
+    
+def sort_orders(comparison_data: list[dict], sort_by: OrderSortingCategories):
+    value = sort_by.value
+
+    filtered_data = [row for row in comparison_data if (row.get(value) is not None and row.get(value) != "0")]
+
+    def sort_key(row):
+        row_value = row.get(value)
+        if isinstance(row_value, str):
+            return row_value.lower()
+        return row_value
+
+    return sorted(
+        filtered_data,
+        key=sort_key,
+        reverse=False,
+    )
+            
 
 
 
@@ -100,7 +125,7 @@ async def create_all_orders(new_db: AsyncSession, order_data: list[OrderCreateRe
     created_order = await orderRepository.create_all_orders(db=new_db, orders=all_orders)
     return all_orders
 
-async def get_company_comparison_data(new_db: AsyncSession, sort_by_input: SortingCategories):
+async def get_company_comparison_data(new_db: AsyncSession, sort_by_input: CompanySortingCategories):
         
         data = await orderRepository.get_company_comparison_data(db=new_db)
         
@@ -138,8 +163,18 @@ async def get_pending_payments(new_db: AsyncSession):
     
     return data
 
-async def get_detailed_order(new_db: AsyncSession):
+# async def get_detailed_orders(new_db: AsyncSession, sort_by_input: OrderSortingCategories):
     
-    data = await orderRepository.get_detailed_order(db=new_db)
+#     data = await orderRepository.get_detailed_orders(db=new_db)
     
-    return data
+#     sortedValues = sort_orders(comparison_data=data, sort_by=sort_by_input)
+    
+#     return sortedValues
+
+async def get_detailed_orders(new_db: AsyncSession, search_by_input: SearchCritera, search_by_value: str | int, sort_by_input: OrderSortingCategories):
+    
+    data = await orderRepository.get_detailed_orders(db=new_db, search_by=search_by_input, search_value=search_by_value)
+    
+    sortedValues = sort_orders(comparison_data=data, sort_by=sort_by_input)
+    
+    return sortedValues

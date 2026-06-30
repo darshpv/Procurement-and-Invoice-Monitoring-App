@@ -1,5 +1,5 @@
 import { ENDPOINTS, instance } from "../utils/api"
-import { SortingCategories } from "../enums";
+import { CompanySortingCategories } from "../enums";
 import type { ComparisonData } from "../types/ComparisonData";
 import { useState, useEffect } from "react";
 import "./TopCompaniesTable.css"
@@ -7,7 +7,7 @@ import "./TopCompaniesTable.css"
 export default function TopCompaniesTable() {
 
     const [displayedCompanies, setDisplayedCompanies] = useState<ComparisonData[]>();
-    const [sortingCategory, setSortingCategory] = useState<string>(SortingCategories.pending_invoice_qty);
+    const [sortingCategory, setSortingCategory] = useState<string>(CompanySortingCategories.pending_invoice_qty);
  
     async function getTopCompanies(category: string) {
         try {
