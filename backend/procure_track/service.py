@@ -54,7 +54,7 @@ def sort_orders(comparison_data: list[dict], sort_by: OrderSortingCategories):
     return sorted(
         filtered_data,
         key=sort_key,
-        reverse=False,
+        reverse= sort_by is not OrderSortingCategories.company_name,
     )
             
 

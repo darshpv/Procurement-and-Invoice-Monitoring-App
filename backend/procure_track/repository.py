@@ -373,7 +373,29 @@ class OrderRepository():
             
         
         try:
-            if isinstance(column.type, String):
+            
+            if search_value == "load_all":
+                result = await db.execute(
+                    select(
+                        Order.tender_ref_no,
+                        Order.product_name,
+                        Order.company_name,
+                        Order.po_no,
+                        Order.po_date,
+                        Order.po_quantity,
+                        Order.po_value,
+                        Order.invoice_qty,
+                        Order.invoice_value,
+                        Order.pending_invoice_qty,
+                        Order.pending_invoice_value,
+                        Order.schedule_date,
+                        Order.remaining_days,
+                        Order.status,
+                        Order.payment_sanction_date
+                    )
+                )
+            
+            elif isinstance(column.type, String):
                 result = await db.execute(
                     select(
                         Order.tender_ref_no,

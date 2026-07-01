@@ -15,12 +15,36 @@
     box-sizing: border-box;
 }
 
+.detailed-order-table button {
+    border-radius: 10px;
+    padding: 5px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    transition: 0.5s ease;
+}
+
+.detailed-order-table button:hover {
+    padding: 5px;
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+}
+
+.detailed-order-table button:disabled {
+    border-radius: 10px;
+    padding: 5px;
+    color: #ddd;
+    background-color: white;
+    border: 1px solid #ddd;
+}
+
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-   color: black;
+    color: black;
 }
 
 .red-row {
@@ -51,6 +75,9 @@
   padding: 10px;
 }
 
+.detailed-order-table th {
+  color: black;
+}
 
 .detailed-order-table select {
     padding: 5px;
